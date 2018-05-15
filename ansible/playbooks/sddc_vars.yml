@@ -1,6 +1,13 @@
 vcenter_hostname: "usa1-2-vcenter.oc.vmware.com"
 vcenter_username: "administrator@vsphere.local"
 vcenter_password: ""
+
+nsxmanager_spec:
+        raml_file: '/opt/nsxraml/nsxvapi.raml'
+        host: 'usa1-2-nsxv.oc.vmware.com'
+        user: 'admin'
+        password: ''
+
 datacenter: "Lab-Datacenter"
 cluster: "Ansible-Cluster"
 
@@ -12,7 +19,6 @@ cluster_drs: "yes"
 cluster_vsan: "no"
 
 esxi_hostlist:
-  - usa1-2-esx3.oc.vmware.com
   - usa1-3-esx1.oc.vmware.com
   - usa1-3-esx2.oc.vmware.com
   - usa1-3-esx3.oc.vmware.com
@@ -24,7 +30,51 @@ dvs_mtu: "9000"
 dvs_uplinks: "2"
 dvs_discovery_proto: "cdp"
 dvs_discovery_op: "both"
+dvs_mgmt_pg: "dpgManagement-141"
+dvs_mgmt_vmk: "vmk0"
 
 vmnics:
-  - vmnic0
-  - vmnic1
+  - vmnic3
+
+vss_name: "vSwitch0"
+vss_portgroup: "Management Network"
+
+portgroups:
+  - name: "dpgManagement-131"
+    vlan_id: "131"
+    num_ports: "120"
+    portgroup_type: "ephemeral"
+  - name: "dpgManagement-141"
+    vlan_id: "141"
+    num_ports: "120"
+    portgroup_type: "ephemeral"
+  - name: "VSAN"
+    vlan_id: "132"
+    num_ports: "120"
+    portgroup_type: "ephemeral"
+  - name: "vMotion"
+    vlan_id: "133"
+    num_ports: "120"
+    portgroup_type: "ephemeral"
+
+vmk_vmotion:
+  - portgroup: "vMotion"
+    vlan_id: "133"
+    vmk_net_type: "static"
+    vmk_ip_addr: "172.17.2.41"
+    vmk_subnet: "255.255.255.224"
+    enabled_ft: False
+    enabled_mgmt: False
+    enabled_vmotion: True
+    enabled_vsan: False
+
+vmk_vsan:
+  - portgroup: "VSAN"
+    vlan_id: "132"
+    vmk_net_type: "static"
+    vmk_ip_addr: "172.17.2.9"
+    vmk_subnet: "255.255.255.224"
+    enabled_ft: False
+    enabled_mgmt: False
+    enabled_vmotion: False
+    enabled_vsan: True
