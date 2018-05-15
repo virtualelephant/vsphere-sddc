@@ -6,7 +6,7 @@
     - sddc_vars.yml
 
   tasks:
-    - name: Create DVS Portgroups
+    - name: Delete DVS Portgroups
       vmware_dvs_portgroup:
         hostname: '{{ vcenter_hostname }}'
         username: '{{ vcenter_username }}'
@@ -33,5 +33,5 @@
           uplink_teaming_override: yes
           vendor_config_override: yes
           vlan_override: yes
-        state: present
+        state: absent
       with_items: '{{ portgroups }}'

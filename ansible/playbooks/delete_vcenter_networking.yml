@@ -1,0 +1,34 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  vars_files:
+    - sddc_vars.yml
+
+  tasks:
+    - name: Remove ESXi hosts from DVS
+      vmware_dvs_host:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        validate_certs: False
+        switch_name: '{{ dvs_name }}'
+        esxi_hostname: '{{ item }}'
+        vmnics: '{{ vmnics }}'
+        state: absent
+      with_items: '{{ esxi_hostlist }}'
+
+    - name: Delete Distributed Virtual Switch
+      vmware_dvswitch:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        validate_certs: False
+        datacenter_name: '{{ datacenter }}'
+        switch_name: '{{ dvs_name }}'
+        switch_version: '{{ dvs_version }}'
+        mtu: '{{ dvs_mtu }}'
+        uplink_quantity: '{{ dvs_uplinks }}'
+        discovery_proto: '{{ dvs_discovery_proto }}'
+        discovery_operation: '{{ dvs_discovery_op }}'
+        state: absent
