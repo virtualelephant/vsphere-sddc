@@ -1,0 +1,35 @@
+---
+- hosts: localhost
+  connection: localhost
+  gather_facts: False
+  vars_files:
+    - vcenter_cluster_vars.yml
+
+  tasks:
+    - name: Create vCenter cluster
+      vmware_cluster:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        datacenter_name: '{{ datacenter }}'
+        cluster_name: '{{ cluster }}'
+        validate_certs: False
+        enable_ha: '{{ cluster_ha }}'
+        enable_drs: '{{ cluster_drs }}'
+        enable_vsan: '{{ cluster_vsan }}'
+        state: present
+
+    - name: Add ESXi Host to vCenter
+      vmware_host:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        datacenter_name: '{{ datacenter }}'
+        cluster_name: '{{ cluster }}'
+        esxi_hostname: '{{ item }}'
+        esxi_username: '{{ esxi_username }}'
+        esxi_password: '{{ esxi_password }}'
+        validate_certs: False
+        state: present
+      with_items: '{{ esxi_hostlist }}'
+      
