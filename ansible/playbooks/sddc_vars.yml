@@ -1,0 +1,30 @@
+vcenter_hostname: "usa1-2-vcenter.oc.vmware.com"
+vcenter_username: "administrator@vsphere.local"
+vcenter_password: ""
+datacenter: "Lab-Datacenter"
+cluster: "Ansible-Cluster"
+
+esxi_username: "root"
+esxi_password: ""
+
+cluster_ha: "yes"
+cluster_drs: "yes"
+cluster_vsan: "no"
+
+esxi_hostlist:
+  - usa1-2-esx3.oc.vmware.com
+  - usa1-3-esx1.oc.vmware.com
+  - usa1-3-esx2.oc.vmware.com
+  - usa1-3-esx3.oc.vmware.com
+  - usa1-3-esx4.oc.vmware.com
+
+dvs_name: "dvSwitch-Ansible"
+dvs_version: "6.6.0"
+dvs_mtu: "9000"
+dvs_uplinks: "2"
+dvs_discovery_proto: "cdp"
+dvs_discovery_op: "both"
+
+vmnics:
+  - vmnic0
+  - vmnic1

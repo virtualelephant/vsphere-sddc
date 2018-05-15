@@ -3,7 +3,7 @@
   connection: localhost
   gather_facts: False
   vars_files:
-    - vcenter_cluster_vars.yml
+    - sddc_vars.yml
 
   tasks:
     - name: Create vCenter cluster
@@ -32,4 +32,3 @@
         validate_certs: False
         state: present
       with_items: '{{ esxi_hostlist }}'
-      
