@@ -19,6 +19,6 @@
     - name: NSX-v cluster preparation
       nsx_cluster_prep:
         nsxmanager_spec: "{{ nsxmanager_spec }}"
-        state: present
+        state: absent
         cluster_moid: '{{ gather_moids_pg.object_id }}'
       register: cluster_prep
