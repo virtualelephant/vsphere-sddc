@@ -1,0 +1,62 @@
+---
+- device:
+  id: UUID
+  type: {'server', 'vm'}
+  hostname: STRING
+  datacenter: {'wdc', 'sc', 'ams', 'blr'}
+
+  - server:
+    model: STRING
+    serial: STRING
+    service_tag: STRING
+    role: {'bare metal', 'esxi'}
+    primary_ip_addr: STRING
+    primary_mac_addr: STRING
+    oob_ip_addr: STRING
+    cpu_model: STRING
+    cpu_count: INT
+    memory: INT
+    disk_count: INT
+    disks:
+      disk0: {model: STRING, capacity: FLOAT, type: {'ssd', 'hdd'}}
+      disk1: {model: STRING, capacity: FLOAT, type: {'ssd', 'hdd'}} 
+    nic_count: INT
+    nics:
+      nic0: {ipv4_addr: STRING, ipv4_prefix: INT, ipv4_gateway: STRING, mac_addr: STRING}
+      nic1: {ipv6_addr: STRING, ipv6_prefix: INT, ipv6_gateway: STRING, mac_addr: STRING}
+    os: {'ESXi', 'CentOS Linux', 'Microsoft Linux', 'Ubuntu Linux'}
+    os_version: STRING
+    aisle: STRING
+    rack: STRING
+    position: STRING
+
+  - vm:
+    type: {'appliance', 'standalone'}
+    role: {'vcenter', 'psc', 'nsx mgr', 'vcd cell'}
+    primary_ip_addr: STRING
+    primary_mac_addr: STRING
+    cpu_core_count: INT
+    cpu_socket_count: INT
+    memory: INT
+    disk_count: INT
+    disks:
+      disk0: {capacity: FLOAT}
+      disk1: {capacity: FLOAT} 
+    nic_count: INT
+    nics:
+      nic0: {ipv4_addr: STRING, ipv4_prefix: INT, ipv4_gateway: STRING, mac_addr: STRING, vlan_id: INT}
+      nic1: {ipv6_addr: STRING, ipv6_prefix: INT, ipv6_gateway: STRING, mac_addr: STRING, vlan_id: INT}
+    os: {'ESXi', 'CentOS Linux', 'Microsoft Linux', 'Ubuntu Linux'}
+    os_version: STRING
+
+- network:
+  id: UUID
+  type: {'ipv4', 'ipv6'}
+  datacenter: {'wdc', 'sc', 'ams', 'blr'}
+  subnet_prefix: INT
+  subnet_id: STRING
+  broadcast_addr: STRING
+  default_gw: STRING
+  host_range: {starting_ip: STRING, ending_ip: STRING}
+  vlan: INT
+
