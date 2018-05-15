@@ -1,0 +1,34 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  vars_files:
+    - sddc_vars.yml
+
+  vmware_dvs_portgroup:
+     hostname: '{{ vcenter_hostname }}'
+     username: '{{ vcenter_username }}'
+     password: '{{ vcenter_password }}'
+     validate_certs: False
+     portgroup_name: '{{ portgroup }}'
+     switch_name: '{{ dvs_name }}'
+     vlan_id: '{{ portgroup_vlan }}'
+     num_ports: '{{ num_ports }}'
+     portgroup_type: '{{ portgroup_type }}'
+     state: present
+     network_policy:
+       promiscuous: yes
+       forged_transmits: yes
+       mac_changes: yes
+     port_policy:
+       block_override: yes
+       ipfix_override: yes
+       live_port_move: yes
+       network_rp_override: yes
+       port_config_reset_at_disconnect: yes
+       security_override: yes
+       shaping_override: yes
+       traffic_filter_override: yes
+       uplink_teaming_override: yes
+       vendor_config_override: yes
+       vlan_override: yes
