@@ -6,7 +6,18 @@
     - sddc_vars.yml
 
   tasks:
-    - name: Remove ESXi hosts from DVS
+    - name: Delete DVS Portgroups
+      vmware_dvs_portgroup:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        validate_certs: False
+        portgroup_name: '{{ item.name }}'
+        switch_name: '{{ dvs_name }}'
+        state: absent
+      with_items: '{{ portgroups }}'
+
+    - name: Remove ESXi hosts to DVS
       vmware_dvs_host:
         hostname: '{{ vcenter_hostname }}'
         username: '{{ vcenter_username }}'
@@ -26,9 +37,10 @@
         validate_certs: False
         datacenter_name: '{{ datacenter }}'
         switch_name: '{{ dvs_name }}'
-        switch_version: '{{ dvs_version }}'
-        mtu: '{{ dvs_mtu }}'
-        uplink_quantity: '{{ dvs_uplinks }}'
-        discovery_proto: '{{ dvs_discovery_proto }}'
-        discovery_operation: '{{ dvs_discovery_op }}'
         state: absent
+
+    
+
+    
+
+    
