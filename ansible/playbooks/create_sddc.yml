@@ -3,6 +3,7 @@
 # Deploy and configure a vSphere SDDC leveraging multiple playbooks.
 #
 
+- import_playbook: create_vcenter_datacenter.yml
 - import_playbook: create_vcenter_cluster.yml
 - import_playbook: create_vcenter_networking.yml
 - import_playbook: nsxv_cluster_prep.yml
