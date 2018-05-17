@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  vars_files:
+    - sddc_vars.yml
+
+  tasks:
+    - name: Set ESXi Host Advanced Settings at cluster level
+      vmware_host_config_manager:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        validate_certs: False
+        cluster_name: '{{ cluster }}'
+        options:
+          "Mem.AllocGuestLargePage": 0
+          "Mem.ShareForceSalting": 0
+          "NFS.MaxVolumes": 256
+          "Net.TcpipHeapSize": 32
+          "Net.TcpipHeapMax": 1024
+          "Syslog.global.logHost": 'usa1-2-log1.oc.vmware.com'
+          "UserVars.SuppressShellWarning": 1
+          "VSAN.SwapThickProvisionDisabled": 1
+          "VSAN.FakeSCSIReservations": 1
+          "LSOM.diskIoTimeout": 100000
+          "LSOM.diskIoRetryFactor": 4

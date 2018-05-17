@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  vars_files:
+    - sddc_vars.yml
+
+  tasks:
+    - name: Gather ESXi advanced host settings
+      vmware_host_config_facts:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        validate_certs: False
+        esxi_hostname: '{{ item }}'
+      with_items: '{{ esxi_hostlist }}'
+      register: gather_esxi_facts
