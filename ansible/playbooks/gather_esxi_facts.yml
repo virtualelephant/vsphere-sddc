@@ -14,4 +14,13 @@
         validate_certs: False
         esxi_hostname: '{{ item }}'
       with_items: '{{ esxi_hostlist }}'
-      register: gather_esxi_facts
+      register: advanced_settings
+
+    - name: Gather ESXi host settings
+      vmware_host_facts:
+        hostname: '{{ item }}'
+        username: '{{ esxi_username }}'
+        password: '{{ esxi_password }}'
+        validate_certs: False
+      with_items: '{{ esxi_hostlist }}'
+      register: host_settings
