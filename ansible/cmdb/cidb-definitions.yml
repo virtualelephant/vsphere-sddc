@@ -7,7 +7,6 @@
 
   - server:
     model: STRING
-    serial: STRING
     service_tag: STRING
     role: {'bare metal', 'esxi'}
     primary_ip_addr: STRING
@@ -21,9 +20,10 @@
       disk0: {model: STRING, capacity: FLOAT, type: {'ssd', 'hdd'}}
       disk1: {model: STRING, capacity: FLOAT, type: {'ssd', 'hdd'}} 
     nic_count: INT
+    nic_model: STRING
     nics:
-      nic0: {ipv4_addr: STRING, ipv4_prefix: INT, ipv4_gateway: STRING, mac_addr: STRING}
-      nic1: {ipv6_addr: STRING, ipv6_prefix: INT, ipv6_gateway: STRING, mac_addr: STRING}
+      nic0: {ipv4_addr: STRING, ipv4_prefix: INT, ipv4_gateway: STRING, mac_addr: STRING, switch_port: REFERENCE}
+      nic1: {ipv6_addr: STRING, ipv6_prefix: INT, ipv6_gateway: STRING, mac_addr: STRING, switch_port: REFERENCE}
     os: {'ESXi', 'CentOS Linux', 'Microsoft Windows', 'Ubuntu Linux'}
     os_version: STRING
     aisle: STRING
