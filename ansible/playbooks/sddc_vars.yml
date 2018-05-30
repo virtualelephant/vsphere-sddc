@@ -8,11 +8,20 @@ nsxmanager_spec:
         user: 'admin'
         password: ''
 
-datacenter: "Lab-Datacenter"
+datacenter: "Ansible-Datacenter"
 cluster: "Ansible-Cluster"
 
 esxi_username: "root"
 esxi_password: ""
+
+domain: "oc.vmware.com"
+dns_servers:
+  - 10.128.242.1
+  - 10.128.242.2
+search_path:
+  - oc.vmware.com
+  - eng.vmware.com
+  - vmware.com
 
 cluster_ha: "yes"
 cluster_drs: "yes"
@@ -23,6 +32,10 @@ esxi_hostlist:
   - usa1-3-esx2.oc.vmware.com
   - usa1-3-esx3.oc.vmware.com
   - usa1-3-esx4.oc.vmware.com
+
+service_list:
+  - TSM-SSH
+  - ntpd
 
 dvs_name: "dvSwitch-Ansible"
 dvs_version: "6.6.0"
@@ -57,24 +70,98 @@ portgroups:
     num_ports: "120"
     portgroup_type: "ephemeral"
 
-vmk_vmotion:
-  - portgroup: "vMotion"
-    vlan_id: "133"
-    vmk_net_type: "static"
-    vmk_ip_addr: "172.17.2.41"
-    vmk_subnet: "255.255.255.224"
-    enabled_ft: False
-    enabled_mgmt: False
-    enabled_vmotion: True
-    enabled_vsan: False
+esx1_vmk_vmotion:
+  portgroup: "vMotion"
+  vlan_id: "133"
+  vmk_net_type: "static"
+  vmk_ip_addr: "172.17.2.41"
+  vmk_subnet: "255.255.255.224"
+  mtu: "1500"
+  enable_ft: False
+  enable_mgmt: False
+  enable_vmotion: True
+  enable_vsan: False
 
-vmk_vsan:
-  - portgroup: "VSAN"
-    vlan_id: "132"
-    vmk_net_type: "static"
-    vmk_ip_addr: "172.17.2.9"
-    vmk_subnet: "255.255.255.224"
-    enabled_ft: False
-    enabled_mgmt: False
-    enabled_vmotion: False
-    enabled_vsan: True
+esx2_vmk_vmotion:
+  portgroup: "vMotion"
+  vlan_id: "133"
+  vmk_net_type: "static"
+  vmk_ip_addr: "172.17.2.42"
+  vmk_subnet: "255.255.255.224"
+  mtu: "1500"
+  enable_ft: False
+  enable_mgmt: False
+  enable_vmotion: True
+  enable_vsan: False
+
+esx3_vmk_vmotion:
+  portgroup: "vMotion"
+  vlan_id: "133"
+  vmk_net_type: "static"
+  vmk_ip_addr: "172.17.2.43"
+  vmk_subnet: "255.255.255.224"
+  mtu: "1500"
+  enable_ft: False
+  enable_mgmt: False
+  enable_vmotion: True
+  enable_vsan: False
+
+esx4_vmk_vmotion:
+  portgroup: "vMotion"
+  vlan_id: "133"
+  vmk_net_type: "static"
+  vmk_ip_addr: "172.17.2.44"
+  vmk_subnet: "255.255.255.224"
+  mtu: "1500"
+  enable_ft: False
+  enable_mgmt: False
+  enable_vmotion: True
+  enable_vsan: False
+
+esx1_vmk_vsan:
+  portgroup: "VSAN"
+  vlan_id: "132"
+  vmk_net_type: "static"
+  vmk_ip_addr: "172.17.2.9"
+  vmk_subnet: "255.255.255.224"
+  mtu: "1500"
+  enable_ft: False
+  enable_mgmt: False
+  enable_vmotion: False
+  enable_vsan: True
+
+esx2_vmk_vsan:
+  portgroup: "VSAN"
+  vlan_id: "132"
+  vmk_net_type: "static"
+  vmk_ip_addr: "172.17.2.10"
+  vmk_subnet: "255.255.255.224"
+  mtu: "1500"
+  enable_ft: False
+  enable_mgmt: False
+  enable_vmotion: False
+  enable_vsan: True
+
+esx3_vmk_vsan:
+  portgroup: "VSAN"
+  vlan_id: "132"
+  vmk_net_type: "static"
+  vmk_ip_addr: "172.17.2.11"
+  vmk_subnet: "255.255.255.224"
+  mtu: "1500"
+  enable_ft: False
+  enable_mgmt: False
+  enable_vmotion: False
+  enable_vsan: True
+
+esx4_vmk_vsan:
+  portgroup: "VSAN"
+  vlan_id: "132"
+  vmk_net_type: "static"
+  vmk_ip_addr: "172.17.2.12"
+  vmk_subnet: "255.255.255.224"
+  mtu: "1500"
+  enable_ft: False
+  enable_mgmt: False
+  enable_vmotion: False
+  enable_vsan: True
