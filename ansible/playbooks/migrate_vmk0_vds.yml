@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  vars_files:
+    - sddc_vars.yml
+
+  tasks:
+    - name: Migrate vmkernel interfaces to DVS
+      vmware_migrate_vmk:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        validate_certs: False
+        esxi_hostname: '{{ item }}'
+        current_switch_name: '{{ vss_name }}'
+        current_portgroup_name: '{{ vss_portgroup }}'
+        migrate_switch_name: '{{ dvs_name }}'
+        migrate_portgroup_name: '{{ dvs_mgmt_pg }}'
+        device: '{{ dvs_mgmt_vmk }}'
+      with_items: '{{ esxi_hostlist }}'
