@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  vars_files:
+    - sddc_vars.yml
+
+  tasks:
+    - name: Create vSAN VMkernel Interface
+      vmware_vmkernel:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        validate_certs: False
+        esxi_hostname: '{{ esxi_hostlist[0] }}'
+        vswitch_name: '{{ dvs_name }}'
+        portgroup_name: '{{ esx1_vmk_vsan.portgroup }}'
+        vlan_id: '{{ esx1_vmk_vsan.vlan_id }}'
+        mtu: '{{ esx1_vmk_vsan.mtu }}'
+        network:
+          type: 'static'
+          ip_address: '{{ esx1_vmk_vsan.vmk_ip_addr }}'
+          subnet_mask: '{{ esx1_vmk_vsan.vmk_subnet }}'
+        enable_mgmt: '{{ esx1_vmk_vsan.enable_mgmt }}'
+        enable_ft: '{{ esx1_vmk_vsan.enable_ft }}'
+        enable_vsan: '{{ esx1_vmk_vsan.enable_vsan }}'
+        enable_vmotion: '{{ esx1_vmk_vsan.enable_vmotion }}'
+        state: present
