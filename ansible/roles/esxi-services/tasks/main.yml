@@ -1,0 +1,13 @@
+---
+# tasks file for esxi-services
+
+- name: Interface with ESXi services
+  vmware_host_service_manager:
+    hostname: '{{ vcenter_hostname }}'
+    username: '{{ vcenter_username }}'
+    password: '{{ vcenter_password }}'
+    validate_certs: false
+    cluster_name: '{{ vcenter_cluster }}'
+    service_name: '{{ item.name }}'
+    service_policy: '{{ item.policy }}'
+    state: '{{ service_state }}'
