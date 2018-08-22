@@ -1,2 +1,31 @@
 ---
 # tasks file for nsxv-manager-config
+- name: Register NSX-v Manager with SSO
+  nsx_sso_registration:
+    nsxmanager_spec: '{{ nsxmanager_spec }}'
+    sso_lookupservice_url: 'lookupservice/sdk'
+    sso_lookupservice_port: 7444
+    sso_lookupservice_server: '{{ sso_hostname }}'
+    sso_admin_username: '{{ vcenter_username }}'
+    sso_admin_password: '{{ vcenter_password }}'
+    accept_all_certs: true
+    state: present
+  register: sso_registration
+
+- name: Register NSX-v Manager with vCenter Server
+  nsx_vc_registration:
+    nsxmanager_spec: '{{ nsxmanager_spec }}'
+    vcenter: '{{ vcenter_hostname }}'
+    vcusername: '{{ vcenter_username }}'
+    vcpassword: '{{ vcenter_password }}'
+    accept_all_certs: true
+  register: vc_registration
+
+- name: Configure NSX-v Manager Remote Syslog Server
+  nsx_manager_syslog:
+    nsxmanager_spec: '{{ nsxmanager_spec }}'
+    state: present
+    syslog_server: '{{ syslog_server }}'
+    syslog_port: '{{ syslog_port }}'
+    syslog_protocol: '{{ syslog_protocol }}'
+  register: nsxv_mgr_syslog

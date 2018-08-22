@@ -1,2 +1,6 @@
 ---
 # defaults file for nsxv-license
+vcenter_hostname: 'vcenter.local'
+vcenter_username: '{{ vault_vcenter_username }}'
+vcenter_password: '{{ vault_vcenter_password }}'
+nsxv_license_key: '{{ vault_nsxv_license_key }}'

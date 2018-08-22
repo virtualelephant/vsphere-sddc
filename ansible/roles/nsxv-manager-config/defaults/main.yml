@@ -1,2 +1,20 @@
 ---
 # defaults file for nsxv-manager-config
+nsxmanager_spec:
+  raml_file: '/path/to/nsxraml/nsxvapi.raml'
+  host: 'nsx-manager.local'
+  user: '{{ vault_nsxv_username }}'
+  password: '{{ vault_nsxv_password }}'
+
+vcenter_hostname: 'vcenter.local'
+vcenter_username: '{{ vault_vcenter_username }}'
+vcenter_password: '{{ vault_vcenter_password }}'
+syslog_server: 'syslog.local'
+syslog_port: 514
+syslog_protocol: 'udp'
+
+# If PSC is embedded with vCenter Server
+sso_hostname: '{{ vcenter_hostname }}'
+
+#If PSC is external from vCenter
+sso_hostname: 'psc.local'

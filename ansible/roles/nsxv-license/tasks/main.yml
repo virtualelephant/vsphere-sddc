@@ -1,2 +1,9 @@
 ---
 # tasks file for nsxv-license
+- name: Apply NSX-v License to vCenter
+  vmware_nsx_license:
+    vcenter: '{{ vcenter_hostname }}'
+    vcenter_user: '{{ vcenter_user }}'
+    vcenter_passwd: '{{ vcenter_password }}'
+    license_key: '{{ nsxv_license_key }}'
+  register: apply_nsxv_license

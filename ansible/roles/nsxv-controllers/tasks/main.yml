@@ -1,2 +1,61 @@
 ---
 # tasks file for nsxv-controllers
+- name: Create NSX-v Controller IP Pool
+  nsx_ippool:
+    nsxmanager_spec: '{{ nsxmanager_spec }}'
+    state: present
+    name: '{{ controller_ippool.name }}'
+    start_ip: '{{ controller_ippool.start_ip }}'
+    end_ip: '{{ controller_ippool.end_ip }}'
+    prefix_length: '{{ controller_ippool.prefix }}'
+    gateway: '{{ controller_ippool.gw }}'
+    dns_server_1: '{{ controller_ippool.dns1 }}'
+    dns_server_2: '{{ controller_ippool.dns2 }}'
+  when: controller_pool_state
+  register: controller_ippool
+
+- name: Register MOID for vCenter Cluster
+  vcenter_gather_moids:
+    hostname: '{{ vcenter_hostname }}'
+    username: '{{ vcenter_username }}'
+    password: '{{ vcenter_password }}'
+    datacenter_name: '{{ vcenter_datacenter }}'
+    cluster_name: '{{ vcenter_cluster }}'
+    validate_certs: false
+  register: vcenter_cluster
+
+- name: Register MOID for vCenter Datastore
+  vcenter_gather_moids:
+    hostname: '{{ vcenter_hostname }}'
+    username: '{{ vcenter_username }}'
+    password: '{{ vcenter_password }}'
+    datacenter_name: '{{ vcenter_datacenter }}'
+    datastore_name: '{{ vcenter_datastore }}'
+    validate_certs: false
+  register: vcenter_datastore
+
+- name: Register MOID for vCenter Port Group
+  vcenter_gather_moids:
+    hostname: '{{ vcenter_hostname }}'
+    username: '{{ vcenter_username }}'
+    password: '{{ vcenter_password }}'
+    datacenter_name: '{{ vcenter_datacenter }}'
+    portgroup_name: '{{ controller_portgroup }}'
+    validate_certs: false
+  register: vcenter_portgroup
+
+- name: Create NSX-v Controller Cluster
+  nsx_controllers:
+    nsxmanager_spec: '{{ nsxmanager_spec }}'
+    state: '{{ controller_state }}'
+    deploytype: 'full'
+    name: '{{ controller_name_prefix }}'
+    syslog_server: '{{ syslog_server }}'
+    ippool_id: '{{ controller_ippool.ippool_id }}'
+    resourcepool_moid: '{{ vcenter_cluster.object_id }}'
+    datastore_moid: '{{ vcenter_datastore.object_id }}'
+    network_moid: '{{ vcenter_portgroup.object_id }}'
+    password: '{{ controller_password }}'
+  register: create_nsxv_controllers
+
+
