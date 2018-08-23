@@ -1,2 +1,18 @@
 ---
 # defaults file for vcenter-cluster
+vcenter_hostname: 'vcenter.local'
+vcenter_username: '{{ vault_vcenter_username }}'
+vcenter_password: '{{ vault_vcenter_password }}'
+vcenter_datacenter: 'datacenter'
+
+clusters:
+  - name: 'cluster01'
+    ha: true
+    drs: true
+    vsan: true
+    state: present
+  - name: 'cluster02'
+    ha: true
+    drs: true
+    vsan: true
+    state: present

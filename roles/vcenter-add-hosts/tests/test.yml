@@ -2,4 +2,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - esxi-ntp-config
+    - vcenter-add-hosts

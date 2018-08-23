@@ -1,2 +1,16 @@
 ---
 # tasks file for vcenter-cluster
+- name: Manage vCenter Server cluster
+  vmware_cluster:
+    hostname: '{{ vcenter_hostname }}'
+    username: '{{ vcenter_username }}'
+    password: '{{ vcenter_password }}'
+    validate_certs: false
+    datacenter_name: '{{ vcenter_datacenter }}'
+    cluster_name: '{{ item.name }}'
+    enable_ha: '{{ item.ha }}'
+    enable_drs: '{{ item.drs }}'
+    enable_vsan: '{{ item.vsan }}'
+    state: '{{ item.state }}'
+  with_items: clusters
+  register: manage_clusters

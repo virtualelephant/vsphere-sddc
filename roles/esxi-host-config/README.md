@@ -1,7 +1,7 @@
-vcenter-cluster
+esxi-host-config
 =========
 
-Create, modify or delete a vCenter Server cluster. Enable DRS and HA feature set.
+Manage ESXi node settings, including hostname, DNS and NTP settings.
 
 Requirements
 ------------
@@ -11,22 +11,14 @@ pyvmomi
 Role Variables
 --------------
 
-vcenter_hostname: 'vcenter.local'
-vcenter_username: '{{ vault_vcenter_username }}'
-vcenter_password: '{{ vault_vcenter_password }}'
-vcenter_datacenter: 'datacenter'
+esxi_username: '{{ vault_esxi_username }}'
+esxi_password: '{{ vault_esxi_password }}'
 
-clusters:
-  - name: 'cluster01'
-    ha: true
-    drs: true
-    vsan: true
-    state: present
-  - name: 'cluster02'
-    ha: true
-    drs: true
-    vsan: true
-    state: present
+dns_servers:
+  - 8.8.8.8
+  - 8.8.4.4
+
+change_hostname: false
 
 
 Dependencies
@@ -34,8 +26,6 @@ Dependencies
 
 An Ansible Vault file must exist and include the following variables:
 
-vault_vcenter_username: 'administrator@vsphere.local'
-vault_vcenter_password: 'password'
 vault_esxi_username: 'root'
 vault_esxi_password: 'password'
 
@@ -49,7 +39,7 @@ Example Playbook
   gather_facts: false
   
   roles:
-    - vcenter-cluster
+    - esxi-dns-config
 ```
 
 License

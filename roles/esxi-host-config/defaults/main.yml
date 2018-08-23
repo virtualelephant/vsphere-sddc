@@ -1,0 +1,10 @@
+---
+# defaults file for esxi-host-config
+esxi_username: '{{ vault_esxi_username }}'
+esxi_password: '{{ vault_esxi_password }}'
+
+dns_servers:
+  - 8.8.8.8
+  - 8.8.4.4
+
+change_hostname: false
