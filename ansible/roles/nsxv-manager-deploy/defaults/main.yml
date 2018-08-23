@@ -1,2 +1,30 @@
 ---
 # defaults file for nsxv-manager-deploy
+
+ovftool_path: '/usr/bin/ovftool'
+ova_path: '/mnt/repo'
+ova_file: 'VMware-NSX-Manager-6.4.1-8599035.ova'
+
+vcenter_hostname: 'vcenter.local'
+vcenter_username: '{{ vault_vcenter_username }}'
+vcenter_password: '{{ vault_vcenter_password }}'
+vcenter_datacenter: 'datacenter'
+vcenter_cluster: 'cluster'
+
+nsx_manager:
+  name: 'nsx-manager'
+  fqdn: 'nsx-manager.local'
+  ipaddr: '192.168.0.2'
+  netmask: '255.255.255.0'
+  gw: '192.168.0.254'
+  portgroup: 'management'
+  admin_password: '{{ vault_nsxv_password }}'
+  enable_password: '{{ vault_nsxv_enable_password }}'
+
+domain_name: 'local.domain'
+dns_servers:
+  - 8.8.8.8
+  - 8.8.4.4
+ntp_servers:
+  - 132.163.96.5
+  - 132.163.97.5

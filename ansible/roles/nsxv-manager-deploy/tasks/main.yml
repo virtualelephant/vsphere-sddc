@@ -1,2 +1,24 @@
 ---
 # tasks file for nsxv-manager-deploy
+- name: Deploy NSX-v Manager OVA
+  nsx_deploy_ova:
+    ovftool_path: '{{ ovftool_path }}'
+    vcenter: '{{ vcenter_hostname }}'
+    vcenter_user: '{{ vcenter_username }}'
+    vcenter_passwd: '{{ vcenter_password }}'
+    datacenter: '{{ vcenter_datacenter }}'
+    cluster: '{{ vcenter_cluster }}'
+    portgroup: '{{ nsx_manager.portgroup }}'
+    vmname: '{{ nsx_manager.name }}'
+    hostname: '{{ nsx_manager.fqdn }}'
+    dns_server: '{{ dns_servers[0] }}, {{ dns_server[1] }}'
+    dns_domain: '{{ domain_name }}'
+    ntp_server: '{{ ntp_servers[0] }}, {{ ntp_server[1] }}'
+    ip_address: '{{ nsx_manager.ipaddr }}'
+    netmask: '{{ nsx_manager.netmask }}'
+    gateway: '{{ nsx_manager.gw }}'
+    admin_password: '{{ nsx_manager.admin_password }}'
+    enable_password: '{{ nsx_manager.enable_password }}'
+    path_to_ova: '{{ ova_path }}'
+    ova_file: '{{ ova_file }}'
+  register: deploy_nsxv_manager
