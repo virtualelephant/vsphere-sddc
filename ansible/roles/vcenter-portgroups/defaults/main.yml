@@ -1,2 +1,35 @@
 ---
 # defaults file for vcenter-portgroups
+vcenter_hostname: 'vcenter.local'
+vcenter_username: '{{ vault_vcenter_username }}'
+vcenter_password: '{{ vault_vcenter_password }}'
+
+portgroups:
+  - name: "management"
+    vlan_id: 101
+    num_ports: 120
+    portgroup_type: 'ephemeral'
+    state: present
+  - name: "vmotion"
+    vlan_id: 103
+    num_ports: 120
+    portgroup_type: 'ephemeral'
+    state: present
+
+network_policy:
+  promiscious: yes
+  forged_transmits: yes
+  mac_changes: yes
+
+port_policy:
+  block_override: yes
+  ipfix_override: yes
+  live_port: yes
+  network_rp: yes
+  port_config: yes
+  security_override: yes
+  shaping_override: yes
+  traffic_filter: yes
+  uplink_teaming: yes
+  vendor_config: yes
+  vlan_override: yes

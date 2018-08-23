@@ -1,7 +1,7 @@
-nsxv-controllers
+nsxv-transport-zone
 =========
 
-Create or delete NSX-v Controllers.
+Create or delete and NSX-v Transport Zone.
 
 Requirements
 ------------
@@ -21,26 +21,16 @@ nsxmanager_spec:
 vcenter_hostname: 'vcenter.local'
 vcenter_username: '{{ vault_vcenter_username }}'
 vcenter_password: '{{ vault_vcenter_password }}'
-vcenter_datacenter: 'datacenter'
-vcenter_datastore: 'vsanDatastore'
-vcenter_cluster: 'cluster'
 
-controller_portgroup: 'portgroup'
-controller_pool_state: true
-controller_state: present
-controller_name_prefix: 'prefix-'
-controller_password: '{{ vault_controller_password }}'
+transport_zone:
+  name: 'transport-zone'
+  state: present
+  control_plane: 'UNICAST_MODE'
+  description: 'default transport-zone'
 
-syslog_server: 'syslog.local'
-
-controller_ippool:
-  name: controller_ippool
-  start_ip: '192.168.0.251'
-  end_ip: 192.168.253'
-  prefix_length: '24'
-  gw: '192.168.0.254'
-  dns1: '8.8.8.8'
-  dns2: '8.8.4.4'
+cluster_list:
+  - 'cluster01'
+  - 'cluster02'
 
 Dependencies
 ------------
@@ -51,7 +41,6 @@ vault_vcenter_username: 'administrator@vsphere.local'
 vault_vcenter_password: 'password'
 vault_nsxv_username: 'admin'
 vault_nsxv_password: 'password'
-vault_controller_password: 'password'
 
 Example Playbook
 ----------------
@@ -63,7 +52,7 @@ Example Playbook
   gather_facts: false
   
   roles:
-    - nsxv-controllers
+    - nsxv-transport-zone
 ```
 
 License

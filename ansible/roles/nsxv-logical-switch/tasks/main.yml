@@ -1,2 +1,11 @@
 ---
 # tasks file for nsxv-logical-switch
+- name: Configure NSX-v Logical Switch
+  nsx_logical_switch:
+    nsxmanager_spec: '{{ nsxmanager_spec }}'
+    state: '{{ logical_switch.state }}'
+    transportzone: '{{ logical_switch.tz }}'
+    name: '{{ logical_switch.name }}'
+    controlplanemode: '{{ logical_switch.control_plane }}'
+    description: '{{ logical_switch.description }}'
+  register: config_logical_switch

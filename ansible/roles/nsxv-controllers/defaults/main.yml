@@ -17,6 +17,7 @@ controller_portgroup: 'portgroup'
 controller_pool_state: true
 controller_state: present
 controller_name_prefix: 'prefix-'
+controller_password: '{{ vault_controller_password }}'
 
 syslog_server: 'syslog.local'
 

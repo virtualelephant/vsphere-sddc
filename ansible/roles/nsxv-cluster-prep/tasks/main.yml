@@ -1,2 +1,40 @@
 ---
 # tasks file for nsxv-cluster-prep
+- name: Gather vCenter cluster MOID
+  vcenter_gather_moids:
+    hostname: '{{ vcenter_hostname }}'
+    username: '{{ vcenter_username }}'
+    password: '{{ vcenter_password }}'
+    datacenter_name: '{{ vcenter_datacenter }}'
+    cluster_name: '{{ vcenter_cluster }}'
+    validate_certs: false
+  register: nsxv_cluster
+
+- name: Gather vCenter DVS MOID
+  vcenter_gather_moids:
+    hostname: '{{ vcenter_hostname }}'
+    username: '{{ vcenter_username }}'
+    password: '{{ vcenter_password }}'
+    datacenter_name: '{{ vcenter_datacenter }}'
+    dvs_name: '{{ vcenter_dvs }}'
+  register: nsx_dvs
+
+- name: Install NSX-v VIB on ESXi hosts in cluster
+  nsx_cluster_prep:
+    nsxmanager_spec: '{{ nsxmanager_spec }}'
+    state: '{{ nsxv_cluster_state }}'
+    cluster_moid: '{{ nsxv_cluster.object_id }}'
+  register: cluster_prep
+
+- name: Install VTEP interfaces for VXLAN
+  nsx_vxlan_prep:
+    nsxmanager_spec: '{{ nsxmanager_spec }}'
+    state: '{{ nsxv_cluster_state }}'
+    cluster_moid: '{{ nsxv_cluster.object_id }}'
+    dvs_moid: '{{ nsx_dvs.object_id }}'
+    ippool_id: '{{ vtep_ippool | default(omit) }}'
+    vlan_id: '{{ vtep.vlan_id }}'
+    vmknic_count: '{{ vtep.vmknic_count }}'
+    teaming: '{{ vtep.teaming }}'
+    mtu: '{{ vtep.mtu }}'
+  register: vxlan_prep

@@ -55,7 +55,7 @@
     resourcepool_moid: '{{ vcenter_cluster.object_id }}'
     datastore_moid: '{{ vcenter_datastore.object_id }}'
     network_moid: '{{ vcenter_portgroup.object_id }}'
-    password: '{{ controller_password }}'
+    password: '{{ nsx_controller_password }}'
   register: create_nsxv_controllers
 
 

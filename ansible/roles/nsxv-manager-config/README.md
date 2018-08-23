@@ -1,4 +1,4 @@
-Role Name
+nsxv-manager-config
 =========
 
 Configure a VMware NSX-v Manager.

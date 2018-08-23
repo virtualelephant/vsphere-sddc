@@ -1,0 +1,23 @@
+---
+# tasks file for nsxv-transport-zone
+- name: Gather MOID for vCenter clusters
+  vcenter_gather_moids:
+    hostname: '{{ vcenter_hostname }}'
+    username: '{{ vcenter_username }}'
+    password: '{{ vcenter_password }}'
+    datacenter_name: '{{ vcenter_datacenter }}'
+    cluster_name: '{{ item }}'
+    validate_certs: false
+  with_items: '{{ cluster_list }}'
+  register: '{{ cluster_moid_list }}'
+  
+- name: Configure NSX-v Transport Zone
+  nsx_transportzone:
+    nsxmanager_spec: '{{ nsxmanager_spec }}'
+    state: '{{ transport_zone.state }}'
+    name: '{{ transport_zone.name }}'
+    controlplanemode: '{{ transport_zone.control_plane }}'
+    description: '{{ transport_zone.description }}'
+    cluster_moid_list: '{{ item.object_id }}'
+  with_items: '{{ cluster_moid_list }}'
+  register: config_transport_zone

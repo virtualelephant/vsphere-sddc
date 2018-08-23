@@ -1,4 +1,4 @@
-Role Name
+nsxv-license
 =========
 
 Assign a VMware NSX-v license key to a vCenter Server.

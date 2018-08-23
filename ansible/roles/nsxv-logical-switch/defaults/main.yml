@@ -1,2 +1,14 @@
 ---
 # defaults file for nsxv-logical-switch
+nsxmanager_spec:
+  raml_file: '/path/to/nsxraml/nsxvapi.raml'
+  host: 'nsx-manager.local'
+  user: '{{ vault_nsxv_username }}'
+  password: '{{ vault_nsxv_password }}'
+
+logical_switch:
+  name: 'logical-switch'
+  tz: 'transport-zone'
+  state: present
+  control_plane: 'UNICAST_MODE'
+  description: 'vxlan logical switch'

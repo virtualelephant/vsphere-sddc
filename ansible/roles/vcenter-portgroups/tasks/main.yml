@@ -1,2 +1,31 @@
 ---
 # tasks file for vcenter-portgroups
+- name: Create DVS port group
+  vmware_dvs_portgroup:
+    hostname: '{{ vcenter_hostname }}'
+    username: '{{ vcenter_username }}'
+    password: '{{ vcenter_password }}'
+    validate_certs: false
+    portgroup_name: '{{ item.name }}'
+    switch_name: '{{ vcenter_dvs }}'
+    vlan_id: '{{ item.vlan_id }}'
+    num_ports: '{{ item.num_ports }}'
+    portgroup_type: '{{ item.portgroup_type }}'
+    network_policy:
+      promsicuous: '{{ network_policy.promiscuous }}'
+      forged_transmits: '{{ network_policy.forged_transmits }}'
+      mac_changes: '{{ network_policy.mac_changes }}'
+    port_policy:
+      block_override: '{{ port_policy.block_override }}'
+      ipfix_override: '{{ port_policy.ipfix_override }}'
+      live_port_mode: '{{ port_policy.live_port }}'
+      network_rp_override: '{{ port_policy.network_rp }}'
+      port_config_reset_at_disconnect: '{{ port_policy.port_config }}'
+      security_override: '{{ port_policy.security_override }}'
+      shaping_override: '{{ port_policy.shaping_override }}'
+      traffic_filter_override: '{{ port_policy.traffic_filter }}'
+      uplink_teaming_override: '{{ port_policy.uplink_teaming }}'
+      vendor_config_override: '{{ port_policy.vendor_config }}'
+      vlan_override: '{{ port_policy.vlan_override }}'
+    state: '{{ item.state }}'
+  with_items: '{{ portgroups }}'

@@ -1,5 +1,5 @@
 ---
-# defaults file for nsxv-cluster-prep
+# defaults file for nsxv-transport-zone
 nsxmanager_spec:
   raml_file: '/path/to/nsxraml/nsxvapi.raml'
   host: 'nsx-manager.local'
@@ -9,14 +9,13 @@ nsxmanager_spec:
 vcenter_hostname: 'vcenter.local'
 vcenter_username: '{{ vault_vcenter_username }}'
 vcenter_password: '{{ vault_vcenter_password }}'
-vcenter_datacenter: 'datacenter'
-vcenter_cluster: 'cluster'
-vcenter_dvs: 'dvSwitch'
 
-nsxv_cluster_state: present
+transport_zone:
+  name: 'transport-zone'
+  state: present
+  control_plane: 'UNICAST_MODE'
+  description: 'default transport-zone'
 
-vtep:
-  vlan_id: 102
-  vmknic_count: 1
-  teaming: 'LOADBALANCE_SRCID'
-  mtu: 9000
+cluster_list:
+  - 'cluster01'
+  - 'cluster02'
