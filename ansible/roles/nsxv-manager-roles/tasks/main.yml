@@ -1,2 +1,10 @@
 ---
 # tasks file for nsxv-manager-roles
+- name: Configure NSX Manager role permissions
+  nsx_manager_roles:
+    nsxmanager_spec: '{{ nsxmanager_spec }}'
+    state: '{{ nsx_role.state }}'
+    name: '{{ nsx_role.uid }}'
+    is_group: '{{ nsx_role.is_group }}'
+    role_type: '{{ nsx_role.type }}'
+  register: config_nsx_role

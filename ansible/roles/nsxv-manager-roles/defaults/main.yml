@@ -1,2 +1,13 @@
 ---
 # defaults file for nsxv-manager-roles
+nsxmanager_spec:
+  raml_file: '/path/to/nsxraml/nsxvapi.raml'
+  host: 'nsx-manager.local'
+  user: '{{ vault_nsxv_username }}'
+  password: '{{ vault_nsxv_password }}'
+
+nsx_role:
+  name: 'user@domain.com'
+  state: present
+  is_group: true
+  role_type: 'enterprise-admin'
