@@ -1,2 +1,7 @@
 ---
 # defaults file for vcenter-datacenter
+vcenter_hostname: 'vcenter.local'
+vcenter_username: '{{ vault_vcenter_username }}'
+vcenter_password: '{{ vault_vcenter_password }}'
+vcenter_datacenter: 'datacenter'
+datacenter_state: present

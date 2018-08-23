@@ -1,2 +1,11 @@
 ---
 # tasks file for vcenter-datacenter
+- name: Manage vCenter Datacenter object
+  vmware_datacenter:
+    hostname: '{{ vcenter_hostname }}'
+    username: '{{ vcenter_username }}'
+    password: '{{ vcenter_password }}'
+    validate_certs: false
+    datacenter_name: '{{ vcenter_datacenter }}'
+    state: '{{ datacenter_state }}'
+  register: config_datacenter

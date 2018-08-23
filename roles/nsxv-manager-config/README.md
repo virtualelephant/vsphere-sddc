@@ -35,6 +35,7 @@ Dependencies
 ------------
 
 An Ansible Vault file must exist and include the following variables:
+
 vault_vcenter_username: 'administrator@vsphere.local'
 vault_vcenter_password: 'password'
 vault_nsxv_username: 'admin'
