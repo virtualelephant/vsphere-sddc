@@ -1,0 +1,115 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+#
+# You may obtain a copy of the License at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Author: Chris Mutchler (chris@virtualelephant.com)
+#
+# Description:
+#   Playbook will deploy an NSX-v Manager to an existing vCenter Server,
+#   configure the NSX-v Manager, deploy NSX-v Controllers and setup a
+#   vCenter cluster for VXLAN.
+#
+# Note:
+#   Use of the virtualelephant/ubuntu-ansible Docker container will include
+#   all of necessary Ansible modules and libraries necessary to execute the
+#   playbook.
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    nsxmanager_spec:
+      raml_file: '/path/to/nsxraml/nsxvapi.raml'
+      host: 'nsx-manager.local'
+      user: '{{ vault_nsxv_username }}'
+      password: '{{ vault_nsxv_password }}'
+
+    vcenter_hostname: 'vcenter.local'
+    vcenter_hostname: 'vcenter.local'
+    vcenter_username: '{{ vault_vcenter_username }}'
+    vcenter_password: '{{ vault_vcenter_password }}'
+    vcenter_datacenter: 'datacenter'
+    vcenter_datastore: 'vsanDatastore'
+    vcenter_cluster: 'cluster'
+    vcenter_dvs: 'dvSwitch'
+
+    ovftool_path: '/usr/bin/ovftool'
+    ova_path: '/mnt/repo'
+    ova_file: 'VMware-NSX-Manager-6.4.1-8599035.ova'
+
+    nsx_manager:
+      name: 'nsx-manager'
+      fqdn: 'nsx-manager.local'
+      ipaddr: '192.168.0.2'
+      netmask: '255.255.255.0'
+      gw: '192.168.0.254'
+      portgroup: 'management'
+      admin_password: '{{ vault_nsxv_admin_password }}'
+      enable_password: '{{ vault_nsxv_enable_password }}'
+
+    domain_name: 'local.domain'
+    dns_servers:
+      - 8.8.8.8
+      - 8.8.4.4
+    ntp_servers:
+      - 132.163.96.5
+      - 132.163.97.5
+    syslog_server: 'syslog.local'
+    syslog_port: 514
+    syslog_protocol: 'udp'
+
+    nsx_role:
+      name: 'user@domain.com'
+      state: present
+      is_group: true
+      role_type: 'enterprise-admin'
+
+    controller_portgroup: 'portgroup'
+    controller_pool_state: true
+    controller_state: present
+    controller_name_prefix: 'prefix-'
+    controller_password: '{{ vault_controller_password }}'
+
+    controller_ippool:
+      name: controller_ippool
+      start_ip: '192.168.0.251'
+      end_ip: 192.168.253'
+      prefix_length: '24'
+      gw: '192.168.0.254'
+      dns1: '8.8.8.8'
+      dns2: '8.8.4.4'
+
+    nsxv_cluster_state: present
+
+    vtep:
+      vlan_id: 102
+      vmknic_count: 1
+      teaming: 'LOADBALANCE_SRCID'
+      mtu: 9000
+
+    transport_zone:
+      name: 'transport-zone'
+      state: present
+      control_plane: 'UNICAST_MODE'
+      description: 'default transport-zone'
+
+    cluster_list:
+      - 'cluster'
+
+  roles:
+    - nsxv-manager-deploy
+    - nsxv-manager-config
+    - nsxv-manager-roles
+    - nsxv-license
+    - nsxv-controllers
+    - nsxv-cluster-prep
+    - nsxv-transport-zone
