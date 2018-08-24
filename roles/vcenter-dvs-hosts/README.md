@@ -1,7 +1,7 @@
-vcenter-networking
+vcenter-dvs-hosts
 =========
 
-Manage a vCenter Server Distributed Virtual Switch.
+Manage ESXi nodes attached to a Distributed Virtual Switch
 
 Requirements
 ------------
@@ -14,23 +14,13 @@ Role Variables
 vcenter_hostname: 'vcenter.local'
 vcenter_username: '{{ vault_vcenter_username }}'
 vcenter_password: '{{ vault_vcenter_password }}'
-vmware_datacenter: 'datacenter'
 
-switches:
-  - name: dvSwitch1
-    version: '6.6.0'
-    mtu: 9000
-    uplink_quantity: 2
-    discovery_proto: 'cdp'
-    discovery_operation: 'both'
-    state: present
-  - name: dvSwitch2
-    version: '6.6.0'
-    mtu: 9000
-    uplink_quantity: 2
-    discovery_proto: 'cdp'
-    discovery_operation: 'both'
-    state: present
+switch_name: 'dvSwitch1'
+esxi_dvs_state: present
+vmnics:
+ - vmnic2
+ - vmnic1
+
 
 Dependencies
 ------------
@@ -50,7 +40,7 @@ Example Playbook
   gather_facts: false
   
   roles:
-    - vcenter-networking
+    - vcenter-dvs-hosts
 ```
 
 License

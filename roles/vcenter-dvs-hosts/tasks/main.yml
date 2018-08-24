@@ -1,0 +1,13 @@
+---
+# tasks file for vcenter-dvs-hosts
+- name: Manage ESXi hosts attached to a Distributed Virtual Switch
+  vmware_dvs_host:
+    hostname: '{{ vcenter_hostname }}'
+    username: '{{ vcenter_username }}'
+    password: '{{ vcenter_password }}'
+    validate_certs: false
+    switch_name: '{{ switch_name }}'
+    esxi_hostname: '{{ inventory_hostname }}'
+    vmnics: '{{ vmnics }}'
+    state: '{{ esxi_dvs_state }}'
+  register: manage_dvs_hosts

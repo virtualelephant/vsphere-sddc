@@ -1,0 +1,11 @@
+---
+# defaults file for vcenter-dvs-hosts
+vcenter_hostname: 'vcenter.local'
+vcenter_username: '{{ vault_vcenter_username }}'
+vcenter_password: '{{ vault_vcenter_password }}'
+
+switch_name: 'dvSwitch1'
+esxi_dvs_state: present
+vmnics:
+ - vmnic2
+ - vmnic1

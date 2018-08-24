@@ -1,2 +1,17 @@
 ---
 # tasks file for vcenter-networking
+- name: Manage Distributed Virtual Switch
+  vmware_dvswitch:
+    hostname: '{{ vcenter_hostname }}'
+    username: '{{ vcenter_username }}'
+    password: '{{ vcenter_password }}'
+    validate_certs: false
+    datacenter_name: '{{ vcenter_datacenter }}'
+    switch_name: '{{ item.name }}'
+    switch_version: '{{ item.version }}'
+    mtu: '{{ item.mtu }}'
+    uplink_quantity: '{{ item.uplinks }}'
+    discovery_proto: '{{ item.discovery_proto }}'
+    discovery_operation: '{{ item.discovery_operation }}'
+    state: '{{ item.state }}'
+  with_items: switches

@@ -2,10 +2,10 @@
 Project to deploy complete SDDC stack using Ansible. Initial execution of the workflow will rely upon a hard-coded variables YAML file for ingestion of values.
 
 ## Ansible Roles
-* esxi-adv-settings     - Configure advanced ESXi settings on ESXi node
-* esxi-host-config       - Configure DNS on ESXi node
-* esxi-services         - Configure ESXi services on ESXi node
-* esxi-vmk-interfaces   - Create/delete VMkernel interfaces on ESXi node
+* esxi-adv-settings     - Configure advanced ESXi settings on an ESXi node
+* esxi-host-config      - Configure DNS, hostname and NTP settings on an ESXi node
+* esxi-services         - Configure ESXi services on an ESXi node
+* esxi-vmk-interfaces   - Create/delete VMkernel interfaces on an ESXi node
 * nsxv-cluster-prep     - Prepare vCenter cluster for NSX-v
 * nsxv-controllers      - Create/delete NSX-v controllers
 * nsxv-license          - Assign NSX-v license
@@ -26,6 +26,7 @@ Project to deploy complete SDDC stack using Ansible. Initial execution of the wo
 * nsxv_sddc_deploy	- Deploy and configure NSX-v Manager and controllers
 
 ## Identified holes in Ansible VMware modules
-- Migrate a vmkernel interface from a VDS back to a VSS (unwinding).
-- Setting up AD authentication for stateful ESXi hosts (https://github.com/vmware/pyvmomi/blob/master/docs/vim/host/ActiveDirectorySpec.rst)
-- Creating VMKernel interfaces appears to need to be able to take a datacenter object.
+* Setting up AD authentication for stateful ESXi hosts
+** (https://github.com/vmware/pyvmomi/blob/master/docs/vim/host/ActiveDirectorySpec.rst)
+* Support for creating VMkernel interfaces on a DVS.
+* Support for NIOC settings

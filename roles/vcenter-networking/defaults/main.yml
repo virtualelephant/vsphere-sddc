@@ -1,2 +1,22 @@
 ---
 # defaults file for vcenter-networking
+vcenter_hostname: 'vcenter.local'
+vcenter_username: '{{ vault_vcenter_username }}'
+vcenter_password: '{{ vault_vcenter_password }}'
+vmware_datacenter: 'datacenter'
+
+switches:
+  - name: dvSwitch1
+    version: '6.6.0'
+    mtu: 9000
+    uplink_quantity: 2
+    discovery_proto: 'cdp'
+    discovery_operation: 'both'
+    state: present
+  - name: dvSwitch2
+    version: '6.6.0'
+    mtu: 9000
+    uplink_quantity: 2
+    discovery_proto: 'cdp'
+    discovery_operation: 'both'
+    state: present
