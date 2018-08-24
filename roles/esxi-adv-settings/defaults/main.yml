@@ -1,2 +1,13 @@
 ---
 # defaults file for esxi-adv-settings
+esxi_username: '{{ vault_esxi_username }}'
+esxi_password: '{{ vault_esxi_password }}'
+
+esxi_adv_settings:
+  Mem.AllocGuestLargePage: 0
+  Mem.ShareForceSalting: 0
+  Net.TcpipHeapSize: 32
+  Net.TcpipHeapMax: 1024
+  Syslog.global.loghost: 'syslog.local'
+  UserVars.SuppressShellWarning: 1
+  VSAN.SwapThickProvisionDisabled: 1

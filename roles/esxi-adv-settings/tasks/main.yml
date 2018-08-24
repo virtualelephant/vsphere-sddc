@@ -1,2 +1,10 @@
 ---
 # tasks file for esxi-adv-settings
+- name: Set ESXi Advanced Settings
+  vmware_host_config_manager:
+    esxi_hostname: '{{ inventory_hostname }}'
+    username: '{{ esxi_username }}'
+    password: '{{ esxi_password }}'
+    validate_certs: false
+    options: { key: '{{ item.key }}', value: '{{ item.value }}' }
+  loop: '{{ esxi_adv_settings | dict2items }}'
