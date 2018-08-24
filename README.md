@@ -23,7 +23,8 @@ Project to deploy complete SDDC stack using Ansible. Initial execution of the wo
 * vcsa-deploy           - Deploy vCenter Server Appliance OVA
 
 ## Ansible Playbooks
-* nsxv_sddc_deploy	- Deploy and configure NSX-v Manager and controllers
+* esxi_sddc_configure.yml	- Configure ESXi nodes
+* nsxv_sddc_deploy		- Deploy and configure NSX-v Manager and controllers
 
 ## Identified holes in Ansible VMware modules
 * Setting up AD authentication for stateful ESXi hosts
