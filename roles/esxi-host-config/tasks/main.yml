@@ -17,4 +17,14 @@
     validate_certs: false
     change_hostame_to: '{{ inventory_hostname }}'
     domainname: '{{ fqdn }}'
-  when: change_hostname
+  when: config_hostname
+
+- name: Configure NTP settings on ESXi node
+  vmware_host_ntp:
+    esxi_hostname: '{{ inventory_hostname }}'
+    username: '{{ esxi_username }}'
+    password: '{{ esxi_password }}'
+    validate_certs: false
+    state: '{{ ntp_state }}'
+    ntp_servers: '{{ ntp_servers }}'
+  register: config_ntp

@@ -13,10 +13,15 @@ Role Variables
 
 esxi_username: '{{ vault_esxi_username }}'
 esxi_password: '{{ vault_esxi_password }}'
+ntp_state: present
 
 dns_servers:
   - 8.8.8.8
   - 8.8.4.4
+
+ntp_servers:
+  - 132.163.96.5
+  - 132.163.97.5
 
 change_hostname: false
 
