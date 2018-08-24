@@ -12,6 +12,7 @@ nsxansible (https://github.com/vmware/nsxansible)
 Role Variables
 --------------
 
+```yaml
 nsxmanager_spec:
   raml_file: '/path/to/nsxraml/nsxvapi.raml'
   host: 'nsx-manager.local'
@@ -24,13 +25,17 @@ logical_switch:
   state: present
   control_plane: 'UNICAST_MODE'
   description: 'vxlan logical switch'
+```
 
 Dependencies
 ------------
 
 An Ansible Vault file must exist and include the following variables:
+
+```yaml
 vault_nsxv_username: 'admin'
 vault_nsxv_password: 'password'
+```
 
 Example Playbook
 ----------------

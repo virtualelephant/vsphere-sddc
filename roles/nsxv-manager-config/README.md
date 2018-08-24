@@ -12,6 +12,7 @@ nsxansible (https://github.com/vmware/nsxansible)
 Role Variables
 --------------
 
+```yaml
 nsxmanager_spec:
   raml_file: '/path/to/nsxraml/nsxvapi.raml'
   host: 'nsx-manager.local'
@@ -30,16 +31,19 @@ sso_hostname: '{{ vcenter_hostname }}'
 
 #If PSC is external from vCenter
 sso_hostname: 'psc.local'
+```
 
 Dependencies
 ------------
 
 An Ansible Vault file must exist and include the following variables:
 
+```yaml
 vault_vcenter_username: 'administrator@vsphere.local'
 vault_vcenter_password: 'password'
 vault_nsxv_username: 'admin'
 vault_nsxv_password: 'password'
+```
 
 Example Playbook
 ----------------

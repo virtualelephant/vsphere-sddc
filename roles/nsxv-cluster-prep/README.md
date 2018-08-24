@@ -12,6 +12,7 @@ nsxansible (https://github.com/vmwaren/nsxansible)
 Role Variables
 --------------
 
+```yaml
 nsxmanager_spec:
   raml_file: '/path/to/nsxraml/nsxvapi.raml'
   host: 'nsx-manager.local'
@@ -34,6 +35,7 @@ vtep:
   mtu: 9000
 
 (Optional) vtep_ippool: 'ipaddresspool-2'
+```
 
 Dependencies
 ------------
@@ -42,11 +44,12 @@ The NSX Manager must be licensed inside vCenter before this role can be used.
 
 An Ansible Vault file must exist and include the following variables:
 
+```yaml
 vault_vcenter_username: 'administrator@vsphere.local'
 vault_vcenter_password: 'password'
 vault_nsxv_username: 'admin'
 vault_nsxv_password: 'password'
-
+```
 
 Example Playbook
 ----------------

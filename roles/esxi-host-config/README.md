@@ -11,6 +11,7 @@ pyvmomi
 Role Variables
 --------------
 
+```yaml
 esxi_username: '{{ vault_esxi_username }}'
 esxi_password: '{{ vault_esxi_password }}'
 ntp_state: present
@@ -24,15 +25,17 @@ ntp_servers:
   - 132.163.97.5
 
 change_hostname: false
-
+```
 
 Dependencies
 ------------
 
 An Ansible Vault file must exist and include the following variables:
 
+```yaml
 vault_esxi_username: 'root'
 vault_esxi_password: 'password'
+```
 
 Example Playbook
 ----------------

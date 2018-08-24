@@ -12,6 +12,7 @@ nsxansible (https://github.com/vmware/nsxansible)
 Role Variables
 --------------
 
+```yaml
 nsxmanager_spec:
   raml_file: '/path/to/nsxraml/nsxvapi.raml'
   host: 'nsx-manager.local'
@@ -23,14 +24,17 @@ nsx_role:
   state: present
   is_group: true
   role_type: 'enterprise-admin'
+```
 
 Dependencies
 ------------
 
 An Ansible Vault file must exist and include the following variables:
 
+```yaml
 vault_nsxv_username: 'admin'
 vault_nsxv_password: 'password'
+```
 
 Example Playbook
 ----------------

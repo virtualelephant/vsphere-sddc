@@ -3,11 +3,11 @@
 
 - name: Interface with ESXi services
   vmware_host_service_manager:
-    hostname: '{{ vcenter_hostname }}'
-    username: '{{ vcenter_username }}'
-    password: '{{ vcenter_password }}'
+    esxi_hostname: '{{ inventory_hostname }}'
+    username: '{{ esxi_username }}'
+    password: '{{ esxi_password }}'
     validate_certs: false
-    cluster_name: '{{ vcenter_cluster }}'
     service_name: '{{ item.name }}'
     service_policy: '{{ item.policy }}'
-    state: '{{ service_state }}'
+    state: '{{ item.state }}'
+  with_items: '{{ service_list }}'

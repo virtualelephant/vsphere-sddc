@@ -1,9 +1,12 @@
 ---
 # defaults file for esxi-services
-vcenter_hostname: 'vcenter.local'
-vcenter_username: '{{ vault_vcenter_username }}'
-vcenter_password: '{{ vault_vcenter_password }}'
+esxi_username: '{{ vault_esxi_username }}'
+esxi_password: '{{ vault_esxi_password }}'
 
-vcenter_cluster: 'Cluster01'
-vcenter_services: ''
-service_state: present
+service_list:
+  - name: ntpd
+    policy: on
+    state: start
+  - name: TSM-SSH
+    policy: on
+    state: start

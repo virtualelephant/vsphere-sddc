@@ -1,4 +1,4 @@
-Role Name
+vcenter-add-hosts
 =========
 
 A brief description of the role goes here.

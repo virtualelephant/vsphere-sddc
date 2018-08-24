@@ -11,6 +11,7 @@ pyvmomi
 Role Variables
 --------------
 
+```yaml
 vcenter_hostname: 'vcenter.local'
 vcenter_username: '{{ vault_vcenter_username }}'
 vcenter_password: '{{ vault_vcenter_password }}'
@@ -44,15 +45,17 @@ port_policy:
   uplink_teaming: yes
   vendor_config: yes
   vlan_override: yes
-
+```
 
 Dependencies
 ------------
 
 An Ansible Vault file must exist and include the following variables:
 
+```yaml
 vault_vcenter_username: 'administrator@vsphere.local'
 vault_vcenter_password: 'password'
+```
 
 Example Playbook
 ----------------

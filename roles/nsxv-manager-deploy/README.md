@@ -12,6 +12,7 @@ nsxansible (https://github.com/vmware/nsxansible)
 Role Variables
 --------------
 
+```yaml
 ovftool_path: '/usr/bin/ovftool'
 ova_path: '/mnt/repo'
 ova_file: 'VMware-NSX-Manager-6.4.1-8599035.ova'
@@ -39,17 +40,20 @@ dns_servers:
 ntp_servers:
   - 132.163.96.5
   - 132.163.97.5
+```
 
 Dependencies
 ------------
 
 An Ansible Vault file must exist and include the following variables:
 
+```yaml
 vault_vcenter_username: 'administrator@vsphere.local'
 vault_vcenter_password: 'password'
 vault_nsxv_username: 'admin'
 vault_nsxv_password: 'password'
 vault_nsxv_enable_password: 'password'
+```
 
 Example Playbook
 ----------------
