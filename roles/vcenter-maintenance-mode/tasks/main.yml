@@ -1,0 +1,13 @@
+---
+# tasks file for vcenter-maintenance-mode
+- name: Set Maintenance Mode state
+  vmware_maintenancemode:
+    hostname: '{{ vcenter_hostname }}'
+    username: '{{ vcenter_username }}'
+    password: '{{ vcenter_password }}'
+    validate_certs: false
+    esxi_hostname: '{{ inventory_hostname }}'
+    vsan: '{{ maintenance_mode.vsan }}'
+    evacuate: '{{ maintenance_mode.evacuate }}'
+    timeout: '{{ maintenance_mode.timeout }}'
+    state: '{{ maintenance_mode.state }}'
