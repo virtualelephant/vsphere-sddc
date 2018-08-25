@@ -18,6 +18,7 @@ Project to deploy complete SDDC stack using Ansible. Initial execution of the wo
 * vcenter-cluster       - Create/delete/modify vCenter cluster
 * vcenter-datacenter    - Create/delete vCenter datacenter object
 * vcenter-dvs-migrate   - Migrate ESXi nodes to DVS, including VMkernel interfaces
+* vcenter-maintenance-mode	- Manage the maintenance mode state of an ESXi node
 * vcenter-networking    - Create/delete DVS
 * vcenter-portgroups    - Create/delete port groups
 * vcsa-deploy           - Deploy vCenter Server Appliance OVA
