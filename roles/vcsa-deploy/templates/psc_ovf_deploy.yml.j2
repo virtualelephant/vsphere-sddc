@@ -1,0 +1,54 @@
+---
+# Using the ovftool binary, deploys the required appliance(s)
+# The failed_when property is used to capture both soft failures ("Monitor failed:") and hard
+#  failures (return code > 0)
+- include_vars: vault.yml
+- name: Deploy the in-band PSC appliance
+  command: >
+    {{ ovftool }}
+    --sourceType=OVA
+    --acceptAllEulas
+    --allowExtraConfig
+    --noSSLVerify
+    --diskMode=thin
+    --skipManifestCheck
+    --X:injectOvfEnv
+    --powerOn
+    --X:httpTimeout='{{ ovftool_http_timeout }}'
+    --X:enableHiddenProperties
+    --X:connectionFileTransferRetryCount=3
+    --X:waitForIp
+    --prop:guestinfo.cis.appliance.root.shell=/bin/bash
+    --prop:guestinfo.cis.db.type=embedded
+    --diskMode=thin
+    --datastore='{{ ib_psc_esx_datastore }}'
+    --network='{{ ib_psc_esx_portgroup }}'
+    --prop:guestinfo.cis.vmdir.password='{{ ib_psc_sso_password }}'
+    --prop:guestinfo.cis.vmdir.site-name='{{ sso_site_name }}'
+    --prop:guestinfo.cis.vmdir.domain-name='{{ sso_domain_name }}'
+    --prop:guestinfo.cis.appliance.ssh.enabled='{{ ssh_enable }}'
+    --prop:guestinfo.cis.appliance.time.tools-sync='{{ time_tools_sync }}'
+    --prop:guestinfo.cis.appliance.net.addr.family='{{ net_addr_family }}'
+{% if network_ip_scheme == "DHCP" %}
+    --name='{{ ib_psc_appliance_name }}'
+    --prop:guestinfo.cis.appliance.root.passwd='{{ vcenter_password }}'
+    --deploymentOption=infrastructure
+    --prop:guestinfo.cis.vmdir.first-instance=true
+    --prop:guestinfo.cis.appliance.net.mode=dhcp
+{% elif network_ip_scheme == "Static" %}
+    --name='{{ psc_appliance_name }}'
+    --prop:guestinfo.cis.appliance.net.pnid='{{ psc_fqdn }}'
+    --prop:guestinfo.cis.appliance.root.passwd='{{ vcenter_password }}'
+    --deploymentOption=infrastructure
+    --prop:guestinfo.cis.vmdir.first-instance=true
+    --prop:guestinfo.cis.appliance.net.mode=static
+    --prop:guestinfo.cis.appliance.net.addr='{{ psc_ip_address | ipaddr }}'
+    --prop:guestinfo.cis.appliance.net.prefix='{{ psc_ip_netmask | ipaddr }}'
+    --prop:guestinfo.cis.appliance.net.gateway='{{ psc_ip_gateway | ipaddr }}'
+    --prop:guestinfo.cis.appliance.net.dns.servers='{{ dns_server | ipaddr }}'
+{% endif %}
+    '{{ mount_dir_path }}/{{ vcsa_ova }}'
+    vi://'{{ psc_deploy_target_user_name | urlencode }}':'{{ vcenter_user_password | urlencode }}'@{{ psc_deploy_target_url }}
+  register: deploy_ovf_cmd_result
+  ignore_errors: True
+  failed_when: "'Monitor failed:' in deploy_ovf_cmd_result.stdout or deploy_ovf_cmd_result.rc > 0"

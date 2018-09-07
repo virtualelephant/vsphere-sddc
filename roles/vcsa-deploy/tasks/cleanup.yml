@@ -14,6 +14,11 @@
 ---
 # tasks file for vcsa-deploy
 
-- include: prereqs.yml
-- include: deploy.yml
-- include: cleanup.yml
+- name: Unmount the ISO
+  mount:
+    path: "{{ mount_dir_path }}"
+    src: "{{ repo_dir }}/{{ vcsa_iso }}"
+    fstype: iso9660
+    state: unmounted
+  tags:
+    - cleanup

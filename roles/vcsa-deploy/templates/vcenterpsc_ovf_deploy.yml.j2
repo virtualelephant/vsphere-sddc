@@ -1,0 +1,50 @@
+---
+# Using the ovftool binary, deploys the required appliance(s)
+# The failed_when property is used to capture both soft failures ("Monitor failed:") and hard
+#  failures (return code > 0)
+- include_vars: vault.yml
+
+- name: Deploy the vCenter appliance with embedded PSC
+  command: >
+    {{ ovftool }}
+    --acceptAllEulas
+    --noSSLVerify
+    --X:injectOvfEnv
+    --allowExtraConfig
+    --X:enableHiddenProperties
+    --X:waitForIp
+    --X:connectionFileTransferRetryCount=3
+    --sourceType=OVA
+    --powerOn
+    --net:"Network 1"='{{ target_esx_portgroup }}'
+    --datastore='{{ target_esx_datastore }}'
+    --diskMode='{{ disk_mode }}'
+    --deploymentOption="{{ vcenter_appliance_size }}"
+    --prop:guestinfo.cis.appliance.root.shell=/bin/bash
+    --prop:guestinfo.cis.deployment.autoconfig=True
+    --prop:guestinfo.cis.silentinstall=False
+    --prop:guestinfo.cis.vmdir.domain-name="{{ sso_domain_name }}"
+    --prop:guestinfo.cis.vmdir.site-name="{{ sso_site_name }}"
+    --prop:guestinfo.cis.vmdir.username="administrator@{{ sso_domain_name }}"
+    --prop:guestinfo.cis.vmdir.password="{{ sso_password }}"
+    --prop:guestinfo.cis.appliance.net.addr.family="{{ net_addr_family }}"
+    --prop:guestinfo.cis.appliance.root.passwd="{{ vcenter_password }}"
+    --prop:guestinfo.cis.appliance.ssh.enabled="{{ ssh_enable }}"
+    --prop:guestinfo.cis.vmdir.first-instance=True
+    --prop:guestinfo.cis.ceip_enabled=True
+    --prop:guestinfo.cis.appliance.ntp.servers="{{ ntp_servers }}"
+  {% if network_ip_scheme == "DHCP" %}
+    --prop:guestinfo.cis.appliance.net.mode="dhcp"
+  {% elif network_ip_scheme == "static" %}
+    --name='{{ vcenter_appliance_name }}'
+    --prop:guestinfo.cis.appliance.net.pnid="{{ vcenter_fqdn }}"
+    --prop:guestinfo.cis.appliance.net.mode="static"
+    --prop:guestinfo.cis.appliance.net.addr="{{ vcenter_ip_address | ipaddr }}"
+    --prop:guestinfo.cis.appliance.net.prefix="{{ vcenter_net_prefix }}"
+    --prop:guestinfo.cis.appliance.net.gateway="{{ vcenter_gateway | ipaddr }}"
+    --prop:guestinfo.cis.appliance.net.dns.servers="{{ dns_servers }}"
+  {% endif %}
+    '{{ mount_dir_path }}/{{ vcsa_ova }}'
+    vi://"{{ target_esxi_username | urlencode }}":"{{ target_esxi_password | urlencode }}"@{{ target_esxi }}/
+  register: deploy_ovf_cmd_result
+  ignore_errors: True

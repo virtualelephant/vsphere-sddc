@@ -1,38 +1,101 @@
-Role Name
+vcsa-deploy
 =========
 
-A brief description of the role goes here.
+Deploy a vCenter Server Appliance or Platform Services Controller from OVA to a target ESXi node.
+
+Fork of https://github.com/vmware/ansible-role-vcsa
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+pyvmomi
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+```yaml
+repo_dir: '/opt/repo'
+vcsa_iso: 'VMware-VCSA-all-6.7.0-9451876.iso'
+vcsa_task_directory: '/opt/ansible/roles/vcsa-deploy/tasks'
+
+ovftool: '/mnt/vcsa/ovftool/lin64/ovftool'
+vcsa_ova: 'vcsa/VMware-vCenter-Server-Appliance-6.7.0.14000-9451876_OVF10.ova'
+mount_dir_path: '/mnt'
+
+appliance_type: 'embedded'
+
+net_addr_family: 'ipv4'
+network_ip_scheme: 'static'
+disk_mode: 'thin'
+ssh_enable: true
+
+vcenter_appliance_name: 'vcenter'
+vcenter_appliance_size: 'medium'
+
+target_esxi_username: '{{ vault_esxi_username }}'
+target_esxi_password: '{{ vault_esxi_password }}'
+target_esx_datastore: 'local-t410-3TB'
+target_esx_portgroup: 'Management'
+
+time_sync_tools: false
+
+vcenter_password: '{{ vault_vcenter_password }}'
+vcenter_fqdn: 'vcenter.local.domain'
+vcenter_ip_address: '192.168.0.25'
+vcenter_netmask: '255.255.0.0'
+vcenter_gateway: '192.168.0.1'
+vcenter_net_prefix: '16'
+
+dns_servers: '192.168.0.1,192.168.0.2'
+ntp_servers: '132.163.96.1,132.163.97.1'
+
+sso_password: '{{ vault_vcenter_password }}'
+sso_site_name: 'Default-Site'
+sso_domain_name: 'vsphere.local'
+```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+An Ansible Vault file must exist and include the following variables:
+
+```yaml
+vault_esxi_username: 'root'
+vault_esxi_password: 'password'
+vault_vcenter_password: 'password'
+```
+
+The vCenter Server Appliance ISO must be accessible to the role/playbook.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+---
+- hosts: all
+  connection: local
+  gather_facts: false
+  
+  roles:
+    - vcsa-deploy
+```
 
 License
 -------
 
-BSD
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+
+You may obtain a copy of the License at
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Modified by Chris Mutchler (chris@virtualelephant.com). http://virtualelephant.com

@@ -1,0 +1,59 @@
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+---
+# tasks file for vcsa-deploy
+- include_vars: vault.yml
+
+- name: Set FQDN fact for vCenter
+  set_fact:
+    vcenter_fqdn: "{{ vcenter_fqdn }}"
+  tags:
+    - create_vcenter_task
+    - create_vcenterpsc_task
+
+- name: Create a task from the template to deploy VCSA with embedded PSC
+  template: src=vcenterpsc_ovf_deploy.yml.j2 dest={{ vcsa_task_directory }}/deploy_embedded_appliance.yml
+  tags:
+    - create_vcenterpsc_task
+  when: appliance_type == "embedded"
+
+- name: Create a task from the template to deploy a standalone VCSA
+  template: src=vcenter_ovf_deploy.yml.j2 dest={{ vcsa_task_directory }}/deploy_standalone_appliance.yml
+  tags:
+    - create_vcenter_task
+  when: appliance_type == "standalone"
+
+- name: Create a task from the template to deploy an external PSC
+  template: src=psc_ovf_deploy.yml.j2 dest={{ vcsa_task_directory }}/deploy_psc_appliance.yml
+  tags:
+    - create_psc_task
+  when: appliance_type == "psc"
+
+- name: Deploy an VCSA with embedded PSC
+  include: deploy_embedded_appliance.yml
+  tags:
+    - deploy_vcenter_psc_ova
+  when: appliance_type == "embedded"
+
+- name: Deploy a standalone VCSA
+  include: deploy_standalone_appliance.yml
+  tags:
+    - deploy_vcenter_ova
+  when: appliance_type == "standalone"
+
+- name: Deploy an external PSC
+  include: deploy_psc_appliance.yml
+  tags:
+    - deploy_psc_ova
+  when: appliance_type == "psc"

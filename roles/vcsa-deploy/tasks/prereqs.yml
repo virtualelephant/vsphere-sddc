@@ -1,0 +1,49 @@
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+---
+# We use a single directory to mount the vCSA ISO and we first need to determine whether the
+#  directory already exists
+- name: Retrieve info about the mount directory
+  stat: path="{{ mount_dir_path }}"
+  register: mount_dir_stat_first
+  tags:
+    - prereqs
+
+# If the mount directory doesn't already exist it is created
+- name: Create the mount directory
+  file: path="{{ mount_dir_path }}" state=directory mode=0755
+  when: mount_dir_stat_first.stat.exists == False
+  tags:
+    - prereqs
+
+# We run stat again to get info about the mount directory post-creation. This info will be used
+#  within when statements to make sure that the directory exists and isn't already being used.
+#  It's a crude check and I would like to devise a better method.
+- name: Retrieve info about the mount directory
+  stat: path="{{ mount_dir_path }}"
+  register: mount_dir_stat_created
+  tags:
+    - prereqs
+
+- name: Mount the ISO
+  mount:
+    path: "{{ mount_dir_path }}"
+    src: "{{ repo_dir }}/{{ vcsa_iso}}"
+    fstype: iso9660
+    opts: ro,noauto
+    state: mounted
+  when: mount_dir_stat_created.stat.wusr == True
+  tags:
+    - prereqs
+

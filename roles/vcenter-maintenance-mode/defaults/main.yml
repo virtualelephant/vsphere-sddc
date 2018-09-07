@@ -1,2 +1,11 @@
 ---
 # defaults file for vcenter-maintenance-mode
+vcenter_hostname: 'vcenter.local'
+vcenter_username: '{{ vault_vcenter_username }}'
+vcenter_password: '{{ vault_vcenter_password }}'
+
+maintenance_mode:
+  state: present
+  vsan: evacuateAllData
+  evacuate: true
+  timeout: 0
