@@ -22,3 +22,45 @@
     state: unmounted
   tags:
     - cleanup
+
+- name: Backup the embedded VCSA task file
+  copy:
+    src: "{{ vcsa_task_directory }}/deploy_embedded_appliance.yml"
+    dest: "{{ vcsa_task_directory }}/deploy_embedded_appliance.yml.backup"
+    backup: no
+    mode: 0644
+  when: appliance_type == "embedded"
+
+- name: Backup the standalone VCSA task file
+  copy:
+    src: "{{ vcsa_task_directory }}/deploy_standalone_appliance.yml"
+    dest: "{{ vcsa_task_directory }}/deploy_standalone_appliance.yml.backup"
+    backup: no
+    mode: 0644
+  when: appliance_type == "standalone"
+
+- name: Backup the PSC task file
+  copy:
+    src: "{{ vcsa_task_directory }}/deploy_psc_appliance.yml"
+    dest: "{{ vcsa_task_directory }}/deploy_psc_appliance.yml.backup"
+    backup: no
+    mode: 0644
+  when: appliance_type == "psc"
+
+- name: Delete the embedded VCSA task file
+  file:
+    path: "{{ vcsa_task_directory }}/deploy_embedded_appliance.yml"
+    state: absent
+  when: appliance_type == "embedded"
+
+- name: Delete the standalone VCSA task file
+  file:
+    path: "{{ vcsa_task_directory }}/deploy_standalone_appliance.yml"
+    state: absent
+  when: appliance_type == "standalone"
+
+- name: Delete the PSC task file
+  file:
+    path: "{{ vcsa_task_directory }}/deploy_psc_appliance.yml"
+    state: absent
+  when: appliance_type == "psc"

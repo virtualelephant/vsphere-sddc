@@ -45,8 +45,12 @@ vcenter_ip_address: "192.168.0.25"
 vcenter_netmask: "255.255.0.0"
 vcenter_gateway: "192.168.0.1"
 vcenter_net_prefix: "16"
-dns_servers: "192.168.0.1,192.168.0.2"
-ntp_servers: "132.163.97.1,132.163.96.1"
+dns_servers:
+  - 192.168.0.1
+  - 192.168.0.2
+ntp_servers:
+  - 132.163.97.1
+  - 132.163.96.1
 
 target_esxi: "192.168.0.11"
 target_esxi_username: "{{ vault_esxi_username }}"

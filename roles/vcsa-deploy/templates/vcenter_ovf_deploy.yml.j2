@@ -39,7 +39,7 @@
     --prop:guestinfo.cis.appliance.net.addr='{{ vcenter_ip_address | ipaddr }}'
     --prop:guestinfo.cis.appliance.net.prefix='{{ vcenter_ip_netmask | ipaddr }}'
     --prop:guestinfo.cis.appliance.net.gateway='{{ vcenter_ip_gateway | ipaddr }}'
-    --prop:guestinfo.cis.appliance.net.dns.servers='{{ dns_server | ipaddr }}'
+    --prop:guestinfo.cis.appliance.net.dns.servers='{% for item in dns_servers %}{{ item }}{{ "," if not loop.last else "" }}{% endfor %}'
 {% endif %}
     --prop:guestinfo.cis.system.vm0.hostname={{ vcenter_psc_appliance_dns_name_manual }}
     --prop:guestinfo.cis.vmdir.password='{{ vcenter_psc_sso_password }}'

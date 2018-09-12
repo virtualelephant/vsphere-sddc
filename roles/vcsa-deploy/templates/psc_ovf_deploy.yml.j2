@@ -45,7 +45,7 @@
     --prop:guestinfo.cis.appliance.net.addr='{{ psc_ip_address | ipaddr }}'
     --prop:guestinfo.cis.appliance.net.prefix='{{ psc_ip_netmask | ipaddr }}'
     --prop:guestinfo.cis.appliance.net.gateway='{{ psc_ip_gateway | ipaddr }}'
-    --prop:guestinfo.cis.appliance.net.dns.servers='{{ dns_server | ipaddr }}'
+    --prop:guestinfo.cis.appliance.net.dns.servers='{% for item in dns_servers %}{{ item }}{{ "," if not loop.last else "" }}{% endfor %}'
 {% endif %}
     '{{ mount_dir_path }}/{{ vcsa_ova }}'
     vi://'{{ psc_deploy_target_user_name | urlencode }}':'{{ vcenter_user_password | urlencode }}'@{{ psc_deploy_target_url }}

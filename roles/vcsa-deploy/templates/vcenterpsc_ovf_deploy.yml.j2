@@ -32,7 +32,7 @@
     --prop:guestinfo.cis.appliance.ssh.enabled="{{ ssh_enable }}"
     --prop:guestinfo.cis.vmdir.first-instance=True
     --prop:guestinfo.cis.ceip_enabled=True
-    --prop:guestinfo.cis.appliance.ntp.servers="{{ ntp_servers }}"
+    --prop:guestinfo.cis.appliance.ntp.servers='{% for item in ntp_servers %}{{ item }}{{ "," if not loop.last else "" }}{% endfor %}'
   {% if network_ip_scheme == "DHCP" %}
     --prop:guestinfo.cis.appliance.net.mode="dhcp"
   {% elif network_ip_scheme == "static" %}
@@ -42,7 +42,7 @@
     --prop:guestinfo.cis.appliance.net.addr="{{ vcenter_ip_address | ipaddr }}"
     --prop:guestinfo.cis.appliance.net.prefix="{{ vcenter_net_prefix }}"
     --prop:guestinfo.cis.appliance.net.gateway="{{ vcenter_gateway | ipaddr }}"
-    --prop:guestinfo.cis.appliance.net.dns.servers="{{ dns_servers }}"
+    --prop:guestinfo.cis.appliance.net.dns.servers='{% for item in dns_servers %}{{ item }}{{ "," if not loop.last else "" }}{% endfor %}'
   {% endif %}
     '{{ mount_dir_path }}/{{ vcsa_ova }}'
     vi://"{{ target_esxi_username | urlencode }}":"{{ target_esxi_password | urlencode }}"@{{ target_esxi }}/
