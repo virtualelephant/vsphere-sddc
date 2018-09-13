@@ -30,7 +30,7 @@ network_ip_scheme: static
 disk_mode: "thin"
 
 vcenter_appliance_name: "vcenter"
-vcenter_appliance_size: "medium"
+vcenter_appliance_size: "small"
 
 target_esx_datastore: "vsanDatastore"
 target_esx_portgroup: "Management"
@@ -40,14 +40,14 @@ time_tools_sync: false
 net_addr_family: "ipv4"
 
 vcenter_password: "{{ vault_vcenter_password }}"
-vcenter_fqdn: "vcenter.local.domain"
+vcenter_fqdn: "vcenter.home.virtualelephant.com"
 vcenter_ip_address: "192.168.0.25"
 vcenter_netmask: "255.255.0.0"
 vcenter_gateway: "192.168.0.1"
 vcenter_net_prefix: "16"
+
 dns_servers:
   - 192.168.0.1
-  - 192.168.0.2
 ntp_servers:
   - 132.163.97.1
   - 132.163.96.1
